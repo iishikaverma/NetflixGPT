@@ -1,10 +1,13 @@
 import './App.css';
+import Body from './components/Body';
+import Browse from './components/Browse';
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <h1 className="text-4xl font-bold text-red-500">
-        Netflix
+    <div>
+      <h1 className="">
+        <Body/>
+        <Browse/>
       </h1>
     </div>
   );
