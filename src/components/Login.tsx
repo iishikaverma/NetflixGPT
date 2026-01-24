@@ -1,11 +1,91 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/validate";
+//import { useDispatch } from "react-redux";
 
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const email = useRef<HTMLInputElement> (null);
+    const password = useRef<HTMLInputElement> (null);
+    const name = useRef<HTMLInputElement | null>(null);
+    //const dispatch = useDispatch();
 
     const toggleSignInForm = () =>{
         setIsSignInForm(!isSignInForm);
+    }
+
+    const handleButtonClick = () => {
+        // Validate the form data
+        if (!email.current || !password.current) return;
+
+        console.log(email.current.value);
+        console.log(password.current.value);
+
+        const message = checkValidData (email.current.value,password.current.value);
+
+        console.log(message);
+        setErrorMessage(message);
+
+        if (message) return;
+
+    //     if (!isSignInForm){
+    //         //Sign Up Logic 
+    //         createUserWithEmailAndPassword(
+    //             auth,
+    //             email.current.value,
+    //             password.current.value
+    //         )
+
+    //         .then((userCredential) => {
+    
+    //             const user = userCredential.user;
+    //             updateProfile(user, {
+    //                 displayName:  name.current ? name.current.value : "User",
+    //                 photoURL:UserLogo
+    //             })
+    //         .then(() => {
+    //             // Profile updated!
+    //             const { uid, email, displayName, photoURL } = auth.currentUser!;
+
+    //             dispatch(
+    //                 addUser({
+    //                     uid: uid,
+    //                     email: email,
+    //                     displayName: displayName,
+    //                     photoURL: photoURL,
+    //                 }),
+    //             );
+    //         })
+    //         .catch((error) => {
+    //         // An error occurred
+    //         setErrorMessage(error.message);
+    //         });
+
+    //         // console.log(user)
+    //     })
+    //     .catch((error) => {
+    //         const errorCode = error.code;
+    //         const errorMessage = error.message;
+    //         setErrorMessage(errorCode + " - " + errorMessage);
+            
+    //     });
+    //     } else{
+    //         signInWithEmailAndPassword(
+    //             auth,
+    //             email.current.value,
+    //             password.current.value)
+    //         .then((userCredential) => {
+            
+    //         const user = userCredential.user;
+    //     })
+    //     .catch((error) => {
+    //         const errorCode = error.code;
+    //         const errorMessage = error.message;
+    //         setErrorMessage(errorCode + " - " + errorMessage);
+    //     });
+    // }
     }
 
     return(
@@ -23,29 +103,38 @@ const Login = () => {
                     <h1 className="text-3xl font-bold text-white mb-6">
                         {isSignInForm ? "Sign In" : "Sign Up"}
                     </h1>
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4"
+                        onSubmit={(e) => e.preventDefault()}>
 
                         {!isSignInForm && (<input 
+                            ref={name}
                             type="text" 
                             placeholder="Name" 
                             className="h-12 rounded bg-zinc-800 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
                         />)}
 
                         <input 
+                            ref={email}
                             type="email" 
                             placeholder="Email Address" 
                             className="h-12 rounded bg-zinc-800 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
                         />
                         
                         <input 
+                            ref={password}
                             type="password" 
                             placeholder="Password" 
                             className="h-12 rounded bg-zinc-800 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
                         />
-                        
+
+                        {errorMessage && (
+                            <p className="text-red-600 font-bold text-sm ">{errorMessage}</p>
+                        )}
+
                         <button 
                             type="submit" 
                             className="mt-4 h-12 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+                            onClick={handleButtonClick}
                         >
                             {isSignInForm ? "Sign In" : "Sign Up"}
                         </button>
