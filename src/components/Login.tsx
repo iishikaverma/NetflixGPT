@@ -1,16 +1,19 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
-//import { useDispatch } from "react-redux";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { auth } from "../utils/firebase";
+import { addUser } from "../utils/userSlice";
+import { bgImage, userLogo } from "../utils/constants";
 
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
     const email = useRef<HTMLInputElement> (null);
     const password = useRef<HTMLInputElement> (null);
-    const name = useRef<HTMLInputElement | null>(null);
-    //const dispatch = useDispatch();
+    const name = useRef<HTMLInputElement | null> (null);
+    const dispatch = useDispatch();
 
     const toggleSignInForm = () =>{
         setIsSignInForm(!isSignInForm);
@@ -20,79 +23,66 @@ const Login = () => {
         // Validate the form data
         if (!email.current || !password.current) return;
 
-        console.log(email.current.value);
-        console.log(password.current.value);
-
         const message = checkValidData (email.current.value,password.current.value);
 
-        console.log(message);
         setErrorMessage(message);
 
         if (message) return;
 
-    //     if (!isSignInForm){
-    //         //Sign Up Logic 
-    //         createUserWithEmailAndPassword(
-    //             auth,
-    //             email.current.value,
-    //             password.current.value
-    //         )
+        if (!isSignInForm){
+            //Sign Up Logic 
+            createUserWithEmailAndPassword(
+                auth,
+                email.current.value,
+                password.current.value
+            )
 
-    //         .then((userCredential) => {
+            .then((userCredential) => {
     
-    //             const user = userCredential.user;
-    //             updateProfile(user, {
-    //                 displayName:  name.current ? name.current.value : "User",
-    //                 photoURL:UserLogo
-    //             })
-    //         .then(() => {
-    //             // Profile updated!
-    //             const { uid, email, displayName, photoURL } = auth.currentUser!;
-
-    //             dispatch(
-    //                 addUser({
-    //                     uid: uid,
-    //                     email: email,
-    //                     displayName: displayName,
-    //                     photoURL: photoURL,
-    //                 }),
-    //             );
-    //         })
-    //         .catch((error) => {
-    //         // An error occurred
-    //         setErrorMessage(error.message);
-    //         });
-
-    //         // console.log(user)
-    //     })
-    //     .catch((error) => {
-    //         const errorCode = error.code;
-    //         const errorMessage = error.message;
-    //         setErrorMessage(errorCode + " - " + errorMessage);
+                const user = userCredential.user;
             
-    //     });
-    //     } else{
-    //         signInWithEmailAndPassword(
-    //             auth,
-    //             email.current.value,
-    //             password.current.value)
-    //         .then((userCredential) => {
-            
-    //         const user = userCredential.user;
-    //     })
-    //     .catch((error) => {
-    //         const errorCode = error.code;
-    //         const errorMessage = error.message;
-    //         setErrorMessage(errorCode + " - " + errorMessage);
-    //     });
-    // }
+                updateProfile(user, {
+                    displayName:  name.current ? name.current.value : "User",
+                    photoURL:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRKNdKRIgbcMkyGq1cQeq40IA-IQS-FDWnTQ&s"
+                })
+                .then(() => {
+                // Profile updated!
+                const { uid, email, displayName} = auth.currentUser!;
+
+                dispatch(
+                    addUser({
+                        uid: uid,
+                        email: email,
+                        displayName: displayName,
+                        photoURL: userLogo
+                    }),
+                );
+            })
+            .catch((error) => {
+                setErrorMessage(error.message);
+            });
+            })
+            } else {
+                signInWithEmailAndPassword(
+                    auth,
+                    email.current.value,
+                    password.current.value)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorCode + " - " + errorMessage);
+            });
+        }
     }
 
     return(
         <div className="relative h-screen w-full">
             <Header/>
             <div>
-                <img src = "https://assets.nflxext.com/ffe/siteui/vlv3/ce462eb6-4d7f-4c9a-9f61-93cb535a64fd/web/IN-en-20260105-TRIFECTA-perspective_5ec818ea-11f4-4bff-a409-8f36e9f9a1e2_medium.jpg"
+                <img src = {bgImage}
                     alt = "Background"
                     className="absolute inset-0 h-full w-full object-cover"
                 />
