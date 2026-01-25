@@ -16,6 +16,9 @@
     - BugFix: Sign up user display Name and profile Picture update
     - BugFix: if the user is not logged in Redirect /browser to login page and vice a versa.
     - Unsubscribed to the onAuthStateChanged callback
+    - Add Hardcoded values to the constants file
+    - Register TMDB API & create an app & get access token
+    - Get data from TMDB now playing 
 
 
 # Features

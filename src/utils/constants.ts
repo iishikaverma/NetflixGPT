@@ -6,3 +6,19 @@ export const bgImage =
 
 export const userLogo=
 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRKNdKRIgbcMkyGq1cQeq40IA-IQS-FDWnTQ&s";
+
+export const API_OPTIONS = {
+    method: 'GET',
+    headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNzdjNzY4NmRjN2MxZWFmNDQ2MjZhMzRjNzI5YWZhNyIsIm5iZiI6MTc2OTI1NjQ5Mi4yODksInN1YiI6IjY5NzRiNjJjMGYxNTBjYmJjODA4N2YwNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KohigouQQh3bm4Z3LSA6VYCzU5NItQOyxW-Ga-d4NzA'
+    }
+}
+
+export const IMG_CDN = "https://image.tmdb.org/t/p/w500/";
+
+export const languages = [
+    { identifier: "en", name: "English" },
+    { identifier: "hindi", name: "Hindi" },
+];
+
