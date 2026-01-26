@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../utils/appStore";
 import { API_OPTIONS } from "../utils/constants";
 import { addGptMovieResult } from "../utils/gptSlice";
-import { getGeminiResponse } from "../utils/geminiAI";
+// import { getGeminiResponse } from "../utils/geminiAI";
+import { getGroqResponse } from "../utils/groqAI";
 
 const GptSearchBar = () => {
     const langKey = useSelector((store: RootState) => store.config.lang);
@@ -23,18 +24,22 @@ const GptSearchBar = () => {
     };
 
     const handleGptSearchClick = async () => {
+    console.log("🔵 Search button clicked");
     const userValue = searchText.current?.value?.trim();
+    console.log("🔵 User input:", userValue);
+
     if (!userValue) return;
 
     const gptQuery =
         "Act as a movie recommendation engine and recommend only 5 movies based on the user's query: " +
         userValue +
-        ". Only respond with movie titles separated by commas. Only give 5 titles.";
+        ". Respond ONLY with movie titles separated by commas. Do not add numbering or explanations. Only give 5 titles.";
 
     
         // console.log("GPT button clicked");
 
-        const data = await getGeminiResponse(gptQuery);
+        const data = await getGroqResponse(gptQuery);
+        console.log("🟢 Groq raw response:", data);
 
         const gptMovies = data
         ?.split(",")

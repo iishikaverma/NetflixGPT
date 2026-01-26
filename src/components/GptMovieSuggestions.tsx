@@ -3,22 +3,22 @@ import MovieList from "./MovieList";
 
 const GptMovieSuggestions = () => {
 
-    const { movieResults, movieNames } = useSelector(
+    const { movieResult, movieName } = useSelector(
         (store: any) => store.gpt
     );
 
-    if (!movieNames || !movieResults) return null;
+    if (!movieName?.length || !movieResult?.length) return null;
 
     return (
-        <div className="p-3 sm:p-6 m-2 bg-black/80 text-white bg-opacity-70 rounded-lg">
-            <div>
-                {movieNames.map((movieName: string, index: number) => (
+        <div className="relative z-20 mx-4 mb-8 sm:mx-8 mt-6 rounded-xl bg-black/80 backdrop-blur-md">
+            <div className="py-6 space-y-10">
+                {movieName.map((name: string, index: number) => (
 
                     <MovieList
 
-                        key={movieName}
-                        title={movieName}
-                        movies={movieResults[index]}
+                        key={name}
+                        title={name}
+                        movies={movieResult[index]}
                         
                     />
 
