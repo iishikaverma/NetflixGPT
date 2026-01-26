@@ -11,9 +11,8 @@ const MovieList = ({ title, movies }: MovieListProps) => {
         <div className="relative">
             <div className="flex gap-4 overflow-x-scroll scrollbar-hide scroll-smooth">
                 {movies?.map((movie) => (
-                    <div className="flex-shrink-0">
+                    <div key={movie.id} className="flex-shrink-0">
                         <MovieCard
-                            key={movie.id}
                             posterPath={movie.poster_path}
                         />
                     </div>
