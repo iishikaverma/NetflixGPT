@@ -24,9 +24,7 @@ const GptSearchBar = () => {
     };
 
     const handleGptSearchClick = async () => {
-    console.log("🔵 Search button clicked");
     const userValue = searchText.current?.value?.trim();
-    console.log("🔵 User input:", userValue);
 
     if (!userValue) return;
 
@@ -35,11 +33,7 @@ const GptSearchBar = () => {
         userValue +
         ". Respond ONLY with movie titles separated by commas. Do not add numbering or explanations. Only give 5 titles.";
 
-    
-        // console.log("GPT button clicked");
-
         const data = await getGroqResponse(gptQuery);
-        console.log("🟢 Groq raw response:", data);
 
         const gptMovies = data
         ?.split(",")
@@ -60,18 +54,18 @@ const GptSearchBar = () => {
     };
 
     return(
-        <div className="flex justify-center pt-32">
-            <form className="w-full max-w-3xl bg-black/80 rounded-lg p-4 flex items-center gap-3"
+        <div className="flex justify-center pt-28 sm:pt-32 px-3 sm:px-4">
+            <form className="w-full max-w-3xl bg-black/80 rounded-lg p-3 mt-4 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
             onSubmit ={(e) => e.preventDefault()}>
 
                 <input type="text"
                     ref={searchText}
                     placeholder={lang[langKey as keyof typeof lang].gptSearchPlaceholder}
-                    className="flex-1 h-12 px-4 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+                    className="flex-1 h-12 px-4 py-3 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
                 <button
                     onClick={handleGptSearchClick}
-                    className="h-12 px-6 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                    className="h-12 px-6 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition sm:w-auto w-full">
                     {lang[langKey as keyof typeof lang].search}
                 </button>
             </form>
