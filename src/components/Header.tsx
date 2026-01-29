@@ -56,44 +56,47 @@ const Header = () => {
 
     return(
         <div className="fixed z-50 w-full bg-gradient-to-b from-black to-transparent">
-            <div className="flex items-center px-6 py-2">
-                <img
-                    className="w-36 cursor-pointer"
-                    src={netflixLogo}
-                    alt="Netflix logo"
-                />
+            <div className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 py-2 gap-2">
+                <div className="w-full sm:w-auto flex justify-center sm:justify-start">
+                    <img
+                        className="w-36 sm:w-40 cursor-pointer"
+                        src={netflixLogo}
+                        alt="Netflix logo"
+                    />
+                </div>
                 {user && (
                     
-                    <div className="ml-auto flex items-center gap-6">
+                    <div className="w-full sm:w-auto flex justify-center sm:ml-auto">
+                        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:gap-6">
 
-                        {showGptSearch && (
-                                <select
-                                    className="bg-transparent text-white text-sm  px-2 py-1 rounded border border-white"
-                                    onChange={handleLanguageChange}
-                                >
-                                {SUPPORTED_LANGUAGES.map((lang) => (
-                                    <option
-                                        className="bg-slate-900 text-sm"
-                                        key={lang.identifier}
-                                        value={lang.identifier}
+                            {showGptSearch && (
+                                    <select
+                                        className="bg-black cursor-pointer text-white text-xs sm:text-sm px-2 py-1 rounded border border-white"
+                                        onChange={handleLanguageChange}
                                     >
-                                        {lang.name}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
+                                    {SUPPORTED_LANGUAGES.map((lang) => (
+                                        <option
+                                            className="bg-slate-900 text-sm"
+                                            key={lang.identifier}
+                                            value={lang.identifier}
+                                        >
+                                            {lang.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                            
+                            <button className="py-1 sm:py-2 px-3 sm:px-4 text-xs sm:text-base bg-purple-800 text-white rounded-lg"
+                                onClick={handleGptSearchClick}>
+                                {showGptSearch? "Homepage" : "GPT Search"}
+                            </button>
                         
-                        <button className="py-2 px-4 bg-purple-800 text-white rounded-lg hover:bg-purple-700 transition"
-                            onClick={handleGptSearchClick}>
-                            {showGptSearch? "Homepage" : "GPT Search"}
-                        </button>
-                        <div className="flex items-center gap-2">
                             <img
-                                className="w-10 h-10 rounded cursor-pointer"
+                                className="w-8 h-8 rounded cursor-pointer sm:w-10 sm:h-10"
                                 alt="userIcon"
                                 src={userLogo}
                             />
-                            <button  onClick={handleSignOut} className="py-2 px-4 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                            <button  onClick={handleSignOut} className="py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-base rounded bg-red-600 text-white">
                                 Sign Out
                             </button>
                         </div>
